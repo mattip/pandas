@@ -208,6 +208,7 @@ cdef extern from "parser/tokenizer.h":
 
     int parser_init(parser_t *self) nogil
     void parser_free(parser_t *self) nogil
+    void parser_del(parser_t *self) nogil
     int parser_add_skiprow(parser_t *self, int64_t row)
 
     int parser_set_skipfirstnrows(parser_t *self, int64_t nrows)
@@ -564,8 +565,13 @@ cdef class TextReader:
 
     def __dealloc__(self):
         parser_free(self.parser)
-        kh_destroy_str(self.true_set)
-        kh_destroy_str(self.false_set)
+        if self.true_set:
+            kh_destroy_str(self.true_set)
+            self.true_set = NULL
+        if self.false_set:
+            kh_destroy_str(self.false_set)
+            self.false_set = NULL
+        parser_del(self.parser)
 
     def close(self):
         # we need to properly close an open derived
@@ -573,8 +579,17 @@ cdef class TextReader:
         if self.handle is not None:
             try:
                 self.handle.close()
-            except:
+            except Exception as e:
+                print e
                 pass
+            print 'TextReader.close()'
+        parser_free(self.parser)
+        if self.true_set:
+            kh_destroy_str(self.true_set)
+            self.true_set = NULL
+        if self.false_set:
+            kh_destroy_str(self.false_set)
+            self.false_set = NULL
 
     def set_error_bad_lines(self, int status):
         self.parser.error_bad_lines = status
