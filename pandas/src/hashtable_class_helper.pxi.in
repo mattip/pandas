@@ -691,7 +691,8 @@ cdef class PyObjectHashTable(HashTable):
 
     def __dealloc__(self):
         if self.table is not NULL:
-            self.destroy()
+            kh_destroy_pymap(self.table)
+            self.table = NULL
 
     def __len__(self):
         return self.table.size
@@ -703,10 +704,6 @@ cdef class PyObjectHashTable(HashTable):
             key = na_sentinel
         k = kh_get_pymap(self.table, <PyObject*>key)
         return k != self.table.n_buckets
-
-    def destroy(self):
-        kh_destroy_pymap(self.table)
-        self.table = NULL
 
     cpdef get_item(self, object val):
         cdef khiter_t k
