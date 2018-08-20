@@ -26,6 +26,11 @@ cdef extern from "Python.h":
     object PyUnicode_Decode(char *v, Py_ssize_t size, char *encoding,
                             char *errors)
 
+cdef extern from *:
+    """
+    /* allow direct access to PyArrayObject_fields's members */
+    #define NPY_NO_DEPRECATED_API NPY_1_6_API_VERSION
+    """
 
 import numpy as np
 cimport numpy as cnp

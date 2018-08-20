@@ -7,6 +7,12 @@ from cpython cimport Py_INCREF
 
 from libc.stdlib cimport malloc, free
 
+cdef extern from *:
+    """
+    /* allow direct access to PyArrayObject_fields's members */
+    #define NPY_NO_DEPRECATED_API NPY_1_6_API_VERSION
+    """
+
 import numpy as np
 cimport numpy as cnp
 from numpy cimport (ndarray,

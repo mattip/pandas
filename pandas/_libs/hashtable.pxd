@@ -1,3 +1,9 @@
+cdef extern from *:
+    """
+    /* allow direct access to PyArrayObject_fields's members */
+    #define NPY_NO_DEPRECATED_API NPY_1_6_API_VERSION
+    """
+
 from khash cimport (kh_int64_t, kh_uint64_t, kh_float64_t, kh_pymap_t,
                     kh_str_t, uint64_t, int64_t, float64_t)
 from numpy cimport ndarray

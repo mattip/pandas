@@ -41,6 +41,7 @@ http://www.opensource.apple.com/source/tcl/tcl-14/tcl/license.terms
 #include "py_defines.h"
 #define PY_ARRAY_UNIQUE_SYMBOL UJSON_NUMPY
 #define NO_IMPORT_ARRAY
+#define NPY_NO_DEPREACTED_API NPY_1_6_API_VERSION
 #include <numpy/arrayobject.h>  // NOLINT(build/include_order)
 #include <ultrajson.h>          // NOLINT(build/include_order)
 

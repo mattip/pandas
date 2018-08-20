@@ -4,6 +4,12 @@ import sys
 
 cimport cython
 
+cdef extern from *:
+    """
+    /* allow direct access to PyArrayObject_fields's members */
+    #define NPY_NO_DEPRECATED_API NPY_1_6_API_VERSION
+    """
+
 import numpy as np
 cimport numpy as cnp
 from numpy cimport (ndarray, uint8_t, int64_t, int32_t, int16_t, int8_t,

@@ -7,11 +7,16 @@ from libcpp.deque cimport deque
 
 from libc.stdlib cimport malloc, free
 
+cdef extern from *:
+    """
+    /* allow direct access to PyArrayObject_fields's members */
+    #define NPY_NO_DEPRECATED_API NPY_1_6_API_VERSION
+    """
+
 import numpy as np
 cimport numpy as cnp
 from numpy cimport ndarray, double_t, int64_t, float64_t, float32_t
 cnp.import_array()
-
 
 cdef extern from "src/headers/cmath" namespace "std":
     bint isnan(double) nogil
